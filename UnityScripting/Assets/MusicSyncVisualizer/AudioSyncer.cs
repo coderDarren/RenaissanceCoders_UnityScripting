@@ -4,38 +4,43 @@ using UnityEngine;
 
 public class AudioSyncer : MonoBehaviour {
 
-	private void Update()
-    {
-        audio.GetSpectrumData(m_audioSpectrum, 0, fftWindow);
+	public virtual void OnBeat()
+	{
+		Debug.Log("beat");
+		m_timer = 0;
+	}
 
-        m_audioValue = 0;
+	public virtual void OnUpdate()
+	{
+		m_previousAudioValue = m_audioValue;
+        m_audioValue = AudioSpectrum.instance.spectrumValue;
 
-        for (int i = 1; i < m_audioSpectrum.Length - 1; i++)
+        if (m_previousAudioValue > bias &&
+            m_audioValue <= bias)
         {
-            /*Debug.DrawLine(new Vector3(i - 1, m_audioSpectrum[i] + 10, 0), new Vector3(i, m_audioSpectrum[i + 1] + 10, 0), Color.red);
-            Debug.DrawLine(new Vector3(i - 1, Mathf.Log(m_audioSpectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(m_audioSpectrum[i]) + 10, 2), Color.cyan);
-            Debug.DrawLine(new Vector3(Mathf.Log(i - 1), m_audioSpectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), m_audioSpectrum[i] - 10, 1), Color.green);
-            Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(m_audioSpectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(m_audioSpectrum[i]), 3), Color.blue);*/
-
-            m_audioValue -= Mathf.Log(m_audioSpectrum[i - 1]) / 50;
+        	if (m_timer > timeStep)
+            	OnBeat();
         }
 
-        Debug.DrawLine(Vector3.zero, new Vector3(0, 15 - m_audioValue, 0), Color.white);
-        Debug.DrawLine(Vector3.zero, new Vector3(0, minimumThreshold, 0), Color.green);
-        Debug.DrawLine(new Vector3(0, maxThreshold, 0), new Vector3 (0, 15 - m_audioValue, 0), Color.red);
-        Debug.Log(m_audioValue);
-    }
+        if (m_previousAudioValue <= bias &&
+            m_audioValue > bias)
+        {
+            if (m_timer > timeStep)
+            	OnBeat();
+        }
 
-    private void Start()
-    {
-    	m_audioSpectrum = new float[64];
-    }
+        m_timer += Time.deltaTime;
+	}
 
-	public AudioSource audio;
-	public FFTWindow fftWindow;
-	public float minimumThreshold;
-	public float maxThreshold;
+	private void Update()
+	{
+		OnUpdate();
+	}
 
-	private float[] m_audioSpectrum;
+	public float bias;
+	public float timeStep;
+
+	private float m_previousAudioValue;
 	private float m_audioValue;
+	private float m_timer;
 }
