@@ -2,23 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Mini "engine" for analyzing spectrum data
+/// Feel free to get fancy in here for more accurate visualizations!
+/// </summary>
 public class AudioSpectrum : MonoBehaviour {
 
 	private void Update()
     {
+        // get the data
         AudioListener.GetSpectrumData(m_audioSpectrum, 0, FFTWindow.Hamming);
 
+        // assign spectrum value
+        // this "engine" focuses on the simplicity of other classes only..
+        // ..needing to retrieve one value (spectrumValue)
         if (m_audioSpectrum != null && m_audioSpectrum.Length > 0)
+        {
             spectrumValue = m_audioSpectrum[0] * 100;
+        }
     }
 
     private void Start()
     {
-    	m_audioSpectrum = new float[128];
+        /// initialize buffer
+        m_audioSpectrum = new float[128];
     }
 
-    public static float spectrumValue { get; private set; }
+    // This value served to AudioSyncer for beat extraction
+    public static float spectrumValue {get; private set;}
 
-	private float[] m_audioSpectrum;
+    // Unity fills this up for us
+    private float[] m_audioSpectrum;
 
 }

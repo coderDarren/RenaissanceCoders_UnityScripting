@@ -9,7 +9,7 @@ public class AudioSyncScale : AudioSyncer {
 		Vector3 _curr = transform.localScale;
 		Vector3 _initial = _curr;
 		float _timer = 0;
-		
+
 		while (_curr != _target)
 		{
 			_curr = Vector3.Lerp(_initial, _target, _timer / timeToBeat);
@@ -19,6 +19,7 @@ public class AudioSyncScale : AudioSyncer {
 
 			yield return null;
 		}
+
 		m_isBeat = false;
 	}
 
