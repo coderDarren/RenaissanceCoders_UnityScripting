@@ -51,9 +51,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\MusicSyncVisualizer\AudioSpectrum.cs" />
-     <Compile Include="Assets\MusicSyncVisualizer\AudioSyncer.cs" />
-     <Compile Include="Assets\MusicSyncVisualizer\AudioSyncScale.cs" />
+     <Compile Include="Assets\Tutorials\MusicSyncVisualizer\AudioSpectrum.cs" />
+     <Compile Include="Assets\Tutorials\MusicSyncVisualizer\AudioSyncColor.cs" />
+     <Compile Include="Assets\Tutorials\MusicSyncVisualizer\AudioSyncer.cs" />
+     <Compile Include="Assets\Tutorials\MusicSyncVisualizer\AudioSyncScale.cs" />
  <Reference Include="Vuforia.UnityExtensions.Editor">
  <HintPath>C:/Program Files/Unity2017.3/Editor/Data/PlaybackEngines/VuforiaSupport/Managed/Editor/Vuforia.UnityExtensions.Editor.dll</HintPath>
  </Reference>
